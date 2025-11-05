@@ -1,23 +1,22 @@
 from fastapi import FastAPI, HTTPException, status
-from src.core.domain.task import Task, TaskStatus # Importa os modelos do CORE
+from src.core.domain.task import Task, TaskStatus 
 from src.core.services.task_service import TaskService
 from src.core.exceptions.task_exceptions import TaskNotFoundError, TaskNotInValidStateForDeletionError
 
-# 1. Adaptador de Repositório (Implementação concreta)
+
 from src.adapters.repositories.in_memory_task_repository import InMemoryTaskRepository 
 
-# 2. Definição do Core (Injeção de Dependência)
-# Criamos a instância do Adaptador e Injetamos no Serviço
+
 task_repository = InMemoryTaskRepository()
 task_service = TaskService(repository=task_repository)
 
-# 3. Definição da API
+
 app = FastAPI(
     title="Gerenciador de Tarefas Hexagonal",
     description="Demo de Arquitetura Hexagonal com Python e FastAPI."
 )
 
-# --- Endpoints da API ---
+
 
 @app.post("/tasks", response_model=Task, status_code=status.HTTP_201_CREATED)
 def create_task_endpoint(title: str, description: str | None = None):
@@ -52,7 +51,7 @@ def delete_task_endpoint(task_id: str):
     except TaskNotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except TaskNotInValidStateForDeletionError as e:
-        # 🚨 A demonstração crítica: Erro 400 devido à Regra de Negócio do Core
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
             detail=str(e)

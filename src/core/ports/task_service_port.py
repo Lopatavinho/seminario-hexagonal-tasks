@@ -2,8 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List
 from src.core.domain.task import Task, TaskStatus
 
-# A Porta de Serviço (Interface)
-# Define os métodos de negócio que o Adaptador de UI (API) chamará.
+
 class TaskServicePort(ABC):
     
     @abstractmethod

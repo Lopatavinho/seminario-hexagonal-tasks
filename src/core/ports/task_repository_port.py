@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.core.domain.task import Task # Importamos a Entidade
+from src.core.domain.task import Task 
 
-# A Porta de Repositório (Interface)
-# Define o que o Core espera do Adaptador de Banco de Dados.
+
 class TaskRepositoryPort(ABC):
     
     @abstractmethod
